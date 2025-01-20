@@ -1,0 +1,165 @@
+<html>
+<head>
+<title>TopicoController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #19b014;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+TopicoController.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">Controller</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">Dto</span><span class="s2">.</span><span class="s1">TopicoDatos</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">Dto</span><span class="s2">.</span><span class="s1">TopicoRegistrarDatos</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">modelo</span><span class="s2">.</span><span class="s1">Topico</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">modelo</span><span class="s2">.</span><span class="s1">Usuario</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">Repository</span><span class="s2">.</span><span class="s1">TopicoRepository</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">Repository</span><span class="s2">.</span><span class="s1">UsuarioRepository</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">jakarta</span><span class="s2">.</span><span class="s1">validation</span><span class="s2">.</span><span class="s1">Valid</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">beans</span><span class="s2">.</span><span class="s1">factory</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">Autowired</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">http</span><span class="s2">.</span><span class="s1">ResponseEntity</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">security</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">Authentication</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">security</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">userdetails</span><span class="s2">.</span><span class="s1">UserDetails</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">bind</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.*;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">servlet</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ServletUriComponentsBuilder</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">net</span><span class="s2">.</span><span class="s1">URI</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s1">@RestController</span>
+<span class="s1">@RequestMapping</span><span class="s2">(</span><span class="s3">&quot;/topicos&quot;</span><span class="s2">)</span>
+<span class="s0">public class </span><span class="s1">TopicoController </span><span class="s2">{</span>
+
+    <span class="s1">@Autowired</span>
+    <span class="s0">private </span><span class="s1">TopicoRepository topicoRepository</span><span class="s2">;</span>
+
+    <span class="s1">@Autowired</span>
+    <span class="s0">private </span><span class="s1">UsuarioRepository usuarioRepository</span><span class="s2">;</span>
+
+    <span class="s0">private static </span><span class="s1">TopicoDatos apply</span><span class="s2">(</span><span class="s1">Topico topico</span><span class="s2">) {</span>
+        <span class="s0">return new </span><span class="s1">TopicoDatos</span><span class="s2">(</span>
+                <span class="s2">(</span><span class="s1">Long</span><span class="s2">) </span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getId</span><span class="s2">(),</span>
+                <span class="s2">(</span><span class="s1">String</span><span class="s2">) </span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getTitulo</span><span class="s2">(),</span>
+                <span class="s1">topico</span><span class="s2">.</span><span class="s1">getMessage</span><span class="s2">(),</span>
+                <span class="s2">(</span><span class="s1">String</span><span class="s2">) </span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getCurso</span><span class="s2">(),</span>
+                <span class="s1">topico</span><span class="s2">.</span><span class="s1">getCreado</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">(),</span>
+                <span class="s1">topico</span><span class="s2">.</span><span class="s1">getUsuario</span><span class="s2">().</span><span class="s1">getUsername</span><span class="s2">()</span>
+        <span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@PostMapping</span><span class="s2">(</span><span class="s3">&quot;/crear&quot;</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">ResponseEntity</span><span class="s2">&lt;?&gt; </span><span class="s1">crear</span><span class="s2">(</span><span class="s1">@RequestBody @Valid TopicoRegistrarDatos topicoRegistrarDatos</span><span class="s2">, </span><span class="s1">Authentication authentication</span><span class="s2">) {</span>
+        <span class="s1">String nombre </span><span class="s2">= </span><span class="s1">authentication</span><span class="s2">.</span><span class="s1">getName</span><span class="s2">();</span>
+
+        <span class="s1">UserDetails usuario </span><span class="s2">= </span><span class="s1">usuarioRepository</span><span class="s2">.</span><span class="s1">findByNombre</span><span class="s2">(</span><span class="s1">nombre</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">usuario </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s4">403</span><span class="s2">).</span><span class="s1">body</span><span class="s2">(</span><span class="s3">&quot;No autorizado&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">Topico topico </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Topico</span><span class="s2">(</span><span class="s1">topicoRegistrarDatos</span><span class="s2">, (</span><span class="s1">Usuario</span><span class="s2">) </span><span class="s1">usuario</span><span class="s2">);</span>
+        <span class="s1">topicoRepository</span><span class="s2">.</span><span class="s1">save</span><span class="s2">(</span><span class="s1">topico</span><span class="s2">);</span>
+
+        <span class="s1">URI location </span><span class="s2">= </span><span class="s1">ServletUriComponentsBuilder</span><span class="s2">.</span><span class="s1">fromCurrentRequest</span><span class="s2">()</span>
+                <span class="s2">.</span><span class="s1">path</span><span class="s2">(</span><span class="s3">&quot;/{id}&quot;</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">buildAndExpand</span><span class="s2">(</span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getId</span><span class="s2">())</span>
+                <span class="s2">.</span><span class="s1">toUri</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">created</span><span class="s2">(</span><span class="s1">location</span><span class="s2">).</span><span class="s1">build</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@DeleteMapping</span><span class="s2">(</span><span class="s3">&quot;/eliminar/{id}&quot;</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">ResponseEntity</span><span class="s2">&lt;?&gt; </span><span class="s1">eliminar</span><span class="s2">(</span><span class="s1">@PathVariable</span><span class="s2">(</span><span class="s3">&quot;id&quot;</span><span class="s2">) </span><span class="s1">Long id</span><span class="s2">, </span><span class="s1">Authentication authentication</span><span class="s2">) {</span>
+        <span class="s1">String nombre </span><span class="s2">= </span><span class="s1">authentication</span><span class="s2">.</span><span class="s1">getName</span><span class="s2">();</span>
+
+        <span class="s1">UserDetails usuario </span><span class="s2">= </span><span class="s1">usuarioRepository</span><span class="s2">.</span><span class="s1">findByNombre</span><span class="s2">(</span><span class="s1">nombre</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">usuario </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s4">403</span><span class="s2">).</span><span class="s1">body</span><span class="s2">(</span><span class="s3">&quot;No autorizado&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">Topico topico </span><span class="s2">= </span><span class="s1">topicoRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">id</span><span class="s2">).</span><span class="s1">orElse</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">topico </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s4">404</span><span class="s2">).</span><span class="s1">body</span><span class="s2">(</span><span class="s3">&quot;No encontrado&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s0">if </span><span class="s2">(!</span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getUsuario</span><span class="s2">().</span><span class="s1">getUsername</span><span class="s2">().</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">nombre</span><span class="s2">)) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s4">403</span><span class="s2">).</span><span class="s1">body</span><span class="s2">(</span><span class="s3">&quot;No autorizado&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">topicoRepository</span><span class="s2">.</span><span class="s1">deleteById</span><span class="s2">(</span><span class="s1">id</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">ok</span><span class="s2">(</span><span class="s3">&quot;Eliminado&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@GetMapping</span><span class="s2">(</span><span class="s3">&quot;/listar&quot;</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">ResponseEntity</span><span class="s2">&lt;?&gt; </span><span class="s1">listar</span><span class="s2">(</span><span class="s1">Authentication authentication</span><span class="s2">) {</span>
+        <span class="s1">String nombre </span><span class="s2">= </span><span class="s1">authentication</span><span class="s2">.</span><span class="s1">getName</span><span class="s2">();</span>
+
+        <span class="s1">UserDetails usuario </span><span class="s2">= </span><span class="s1">usuarioRepository</span><span class="s2">.</span><span class="s1">findByNombre</span><span class="s2">(</span><span class="s1">nombre</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">usuario </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s4">403</span><span class="s2">).</span><span class="s1">body</span><span class="s2">(</span><span class="s3">&quot;No autorizado&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">TopicoDatos</span><span class="s2">&gt; </span><span class="s1">topicos </span><span class="s2">= </span><span class="s1">topicoRepository</span><span class="s2">.</span><span class="s1">findAll</span><span class="s2">().</span><span class="s1">stream</span><span class="s2">()</span>
+                <span class="s2">.</span><span class="s1">map</span><span class="s2">(</span><span class="s1">TopicoController::apply</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">toList</span><span class="s2">();</span>
+
+        <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">ok</span><span class="s2">(</span><span class="s1">topicos</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@GetMapping</span><span class="s2">(</span><span class="s3">&quot;/listar/{id}&quot;</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">ResponseEntity</span><span class="s2">&lt;?&gt; </span><span class="s1">listarUno</span><span class="s2">(</span><span class="s1">@PathVariable</span><span class="s2">(</span><span class="s3">&quot;id&quot;</span><span class="s2">) </span><span class="s1">Long id</span><span class="s2">, </span><span class="s1">Authentication authentication</span><span class="s2">) {</span>
+        <span class="s1">String nombre </span><span class="s2">= </span><span class="s1">authentication</span><span class="s2">.</span><span class="s1">getName</span><span class="s2">();</span>
+
+        <span class="s1">UserDetails usuario </span><span class="s2">= </span><span class="s1">usuarioRepository</span><span class="s2">.</span><span class="s1">findByNombre</span><span class="s2">(</span><span class="s1">nombre</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">usuario </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s4">403</span><span class="s2">).</span><span class="s1">body</span><span class="s2">(</span><span class="s3">&quot;No autorizado&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">Topico topico </span><span class="s2">= </span><span class="s1">topicoRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">id</span><span class="s2">).</span><span class="s1">orElse</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">topico </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s4">404</span><span class="s2">).</span><span class="s1">body</span><span class="s2">(</span><span class="s3">&quot;No encontrado&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">TopicoDatos topicoDatos </span><span class="s2">= </span><span class="s0">new </span><span class="s1">TopicoDatos</span><span class="s2">((</span><span class="s1">Long</span><span class="s2">) </span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getId</span><span class="s2">(), (</span><span class="s1">String</span><span class="s2">) </span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getTitulo</span><span class="s2">(), </span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getMessage</span><span class="s2">(), (</span><span class="s1">String</span><span class="s2">) </span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getCurso</span><span class="s2">(), </span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getCreado</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">(), </span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getUsuario</span><span class="s2">().</span><span class="s1">getUsername</span><span class="s2">());</span>
+
+        <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">ok</span><span class="s2">(</span><span class="s1">topicoDatos</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@PutMapping</span><span class="s2">(</span><span class="s3">&quot;/modificar/{id}&quot;</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">ResponseEntity</span><span class="s2">&lt;?&gt; </span><span class="s1">actualizarTopico</span><span class="s2">(</span><span class="s1">@PathVariable</span><span class="s2">(</span><span class="s3">&quot;id&quot;</span><span class="s2">) </span><span class="s1">Long id</span><span class="s2">,</span>
+                                              <span class="s1">@RequestBody @Valid TopicoRegistrarDatos topicoRegisterData</span><span class="s2">,</span>
+                                              <span class="s1">Authentication authentication</span><span class="s2">) {</span>
+        <span class="s1">String nombre </span><span class="s2">= </span><span class="s1">authentication</span><span class="s2">.</span><span class="s1">getName</span><span class="s2">();</span>
+
+        <span class="s1">UserDetails usuario </span><span class="s2">= </span><span class="s1">usuarioRepository</span><span class="s2">.</span><span class="s1">findByNombre</span><span class="s2">(</span><span class="s1">nombre</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">usuario </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s4">403</span><span class="s2">).</span><span class="s1">body</span><span class="s2">(</span><span class="s3">&quot;No autorizado&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">Topico topico </span><span class="s2">= </span><span class="s1">topicoRepository</span><span class="s2">.</span><span class="s1">findById</span><span class="s2">(</span><span class="s1">id</span><span class="s2">).</span><span class="s1">orElse</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">topico </span><span class="s2">== </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s4">404</span><span class="s2">).</span><span class="s1">body</span><span class="s2">(</span><span class="s3">&quot;No encontrado&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s0">if </span><span class="s2">(!</span><span class="s1">topico</span><span class="s2">.</span><span class="s1">getUsuario</span><span class="s2">().</span><span class="s1">getUsername</span><span class="s2">().</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">nombre</span><span class="s2">)) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s4">403</span><span class="s2">).</span><span class="s1">body</span><span class="s2">(</span><span class="s3">&quot;No autorizado&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">topico</span><span class="s2">.</span><span class="s1">setTitulo</span><span class="s2">(</span><span class="s1">topicoRegisterData</span><span class="s2">.</span><span class="s1">titulo</span><span class="s2">());</span>
+        <span class="s1">topico</span><span class="s2">.</span><span class="s1">setMensaje</span><span class="s2">(</span><span class="s1">topicoRegisterData</span><span class="s2">.</span><span class="s1">mensaje</span><span class="s2">());</span>
+        <span class="s1">topico</span><span class="s2">.</span><span class="s1">setCurso</span><span class="s2">(</span><span class="s1">topicoRegisterData</span><span class="s2">.</span><span class="s1">curso</span><span class="s2">());</span>
+        <span class="s1">topicoRepository</span><span class="s2">.</span><span class="s1">save</span><span class="s2">(</span><span class="s1">topico</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">ok</span><span class="s2">(</span><span class="s3">&quot;Modificado&quot;</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+
+</pre>
+</body>
+</html>

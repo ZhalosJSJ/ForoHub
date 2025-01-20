@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>UsuarioController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #19b014;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+UsuarioController.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">Controller</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">Dto</span><span class="s2">.</span><span class="s1">UsuarioDatos</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">Dto</span><span class="s2">.</span><span class="s1">UsuarioRegistrarDatos</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">ManejoDeErrores</span><span class="s2">.</span><span class="s1">Seguridad</span><span class="s2">.</span><span class="s1">JwtData</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">ManejoDeErrores</span><span class="s2">.</span><span class="s1">Seguridad</span><span class="s2">.</span><span class="s1">TokenService</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">modelo</span><span class="s2">.</span><span class="s1">Usuario</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">Repository</span><span class="s2">.</span><span class="s1">UsuarioRepository</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">jakarta</span><span class="s2">.</span><span class="s1">validation</span><span class="s2">.</span><span class="s1">Valid</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">beans</span><span class="s2">.</span><span class="s1">factory</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">Autowired</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">http</span><span class="s2">.</span><span class="s1">HttpStatus</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">http</span><span class="s2">.</span><span class="s1">ResponseEntity</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">security</span><span class="s2">.</span><span class="s1">authentication</span><span class="s2">.</span><span class="s1">AuthenticationManager</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">security</span><span class="s2">.</span><span class="s1">authentication</span><span class="s2">.</span><span class="s1">UsernamePasswordAuthenticationToken</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">security</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">Authentication</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">security</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">AuthenticationException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">security</span><span class="s2">.</span><span class="s1">crypto</span><span class="s2">.</span><span class="s1">bcrypt</span><span class="s2">.</span><span class="s1">BCryptPasswordEncoder</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">bind</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">PostMapping</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">bind</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">RequestBody</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">bind</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">RequestMapping</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">bind</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">RestController</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">web</span><span class="s2">.</span><span class="s1">servlet</span><span class="s2">.</span><span class="s1">support</span><span class="s2">.</span><span class="s1">ServletUriComponentsBuilder</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">net</span><span class="s2">.</span><span class="s1">URI</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Map</span><span class="s2">;</span>
+
+<span class="s1">@RestController</span>
+<span class="s1">@RequestMapping</span><span class="s2">(</span><span class="s3">&quot;/usuarios&quot;</span><span class="s2">)</span>
+<span class="s0">public class </span><span class="s1">UsuarioController </span><span class="s2">{</span>
+
+    <span class="s1">@Autowired</span>
+    <span class="s0">private </span><span class="s1">AuthenticationManager authenticationManager</span><span class="s2">;</span>
+
+    <span class="s1">@Autowired</span>
+    <span class="s0">private </span><span class="s1">TokenService tokenService</span><span class="s2">;</span>
+
+    <span class="s1">@Autowired</span>
+    <span class="s0">private </span><span class="s1">UsuarioRepository usuarioRepository</span><span class="s2">;</span>
+
+    <span class="s1">@Autowired</span>
+    <span class="s0">private </span><span class="s1">BCryptPasswordEncoder passwordEncoder</span><span class="s2">;</span>
+
+    <span class="s1">@PostMapping</span><span class="s2">(</span><span class="s3">&quot;/registrar&quot;</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">ResponseEntity</span><span class="s2">&lt;?&gt; </span><span class="s1">register</span><span class="s2">(</span><span class="s1">@RequestBody @Valid UsuarioRegistrarDatos usuarioRegistrarDatos</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">usuarioRepository</span><span class="s2">.</span><span class="s1">findByNombre</span><span class="s2">(</span><span class="s1">usuarioRegistrarDatos</span><span class="s2">.</span><span class="s1">getNombre</span><span class="s2">()) != </span><span class="s0">null </span><span class="s2">||</span>
+                <span class="s1">usuarioRepository</span><span class="s2">.</span><span class="s1">findByEmail</span><span class="s2">(</span><span class="s1">usuarioRegistrarDatos</span><span class="s2">.</span><span class="s1">getEmail</span><span class="s2">()) != </span><span class="s0">null</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">HttpStatus</span><span class="s2">.</span><span class="s1">CONFLICT</span><span class="s2">).</span><span class="s1">body</span><span class="s2">(</span><span class="s3">&quot;Username or email already exists&quot;</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s1">String encryptedPassword </span><span class="s2">= </span><span class="s1">passwordEncoder</span><span class="s2">.</span><span class="s1">encode</span><span class="s2">(</span><span class="s1">usuarioRegistrarDatos</span><span class="s2">.</span><span class="s1">getClave</span><span class="s2">());</span>
+        <span class="s1">Usuario usuario </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Usuario</span><span class="s2">(</span><span class="s1">usuarioRegistrarDatos</span><span class="s2">.</span><span class="s1">getNombre</span><span class="s2">(), </span><span class="s1">usuarioRegistrarDatos</span><span class="s2">.</span><span class="s1">getEmail</span><span class="s2">(), </span><span class="s1">encryptedPassword</span><span class="s2">);</span>
+        <span class="s1">usuarioRepository</span><span class="s2">.</span><span class="s1">save</span><span class="s2">(</span><span class="s1">usuario</span><span class="s2">);</span>
+
+        <span class="s1">URI location </span><span class="s2">= </span><span class="s1">ServletUriComponentsBuilder</span><span class="s2">.</span><span class="s1">fromCurrentRequest</span><span class="s2">().</span><span class="s1">path</span><span class="s2">(</span><span class="s3">&quot;/{usuarioId}&quot;</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">buildAndExpand</span><span class="s2">(</span><span class="s1">usuario</span><span class="s2">.</span><span class="s1">getId</span><span class="s2">()).</span><span class="s1">toUri</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">created</span><span class="s2">(</span><span class="s1">location</span><span class="s2">).</span><span class="s1">build</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@PostMapping</span><span class="s2">(</span><span class="s3">&quot;/login&quot;</span><span class="s2">)</span>
+    <span class="s0">public </span><span class="s1">ResponseEntity</span><span class="s2">&lt;?&gt; </span><span class="s1">authenticate</span><span class="s2">(</span><span class="s1">@RequestBody @Valid UsuarioDatos usuarioDatos</span><span class="s2">) {</span>
+        <span class="s1">Authentication authToken </span><span class="s2">= </span><span class="s0">new </span><span class="s1">UsernamePasswordAuthenticationToken</span><span class="s2">(</span>
+                <span class="s1">usuarioDatos</span><span class="s2">.</span><span class="s1">nombre</span><span class="s2">(),</span>
+                <span class="s1">usuarioDatos</span><span class="s2">.</span><span class="s1">clave</span><span class="s2">()</span>
+        <span class="s2">);</span>
+        <span class="s0">try </span><span class="s2">{</span>
+            <span class="s1">var usuarioAutenticado </span><span class="s2">= </span><span class="s1">authenticationManager</span><span class="s2">.</span><span class="s1">authenticate</span><span class="s2">(</span><span class="s1">authToken</span><span class="s2">);</span>
+            <span class="s1">var JWTtoken </span><span class="s2">= </span><span class="s1">tokenService</span><span class="s2">.</span><span class="s1">generateToken</span><span class="s2">((</span><span class="s1">Usuario</span><span class="s2">) </span><span class="s1">usuarioAutenticado</span><span class="s2">.</span><span class="s1">getPrincipal</span><span class="s2">());</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">ok</span><span class="s2">(</span><span class="s0">new </span><span class="s1">JwtData</span><span class="s2">(</span><span class="s1">JWTtoken</span><span class="s2">));</span>
+        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">AuthenticationException e</span><span class="s2">) {</span>
+            <span class="s0">return </span><span class="s1">ResponseEntity</span><span class="s2">.</span><span class="s1">status</span><span class="s2">(</span><span class="s1">HttpStatus</span><span class="s2">.</span><span class="s1">UNAUTHORIZED</span><span class="s2">)</span>
+                    <span class="s2">.</span><span class="s1">body</span><span class="s2">(</span><span class="s1">Map</span><span class="s2">.</span><span class="s1">of</span><span class="s2">(</span><span class="s3">&quot;error&quot;</span><span class="s2">, </span><span class="s3">&quot;Invalid credentials&quot;</span><span class="s2">));</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

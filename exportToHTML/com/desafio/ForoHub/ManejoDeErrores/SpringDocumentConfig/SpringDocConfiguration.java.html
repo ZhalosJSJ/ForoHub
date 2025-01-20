@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>SpringDocConfiguration.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #19b014;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+SpringDocConfiguration.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">ManejoDeErrores</span><span class="s2">.</span><span class="s1">SpringDocumentConfig</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">io</span><span class="s2">.</span><span class="s1">swagger</span><span class="s2">.</span><span class="s1">v3</span><span class="s2">.</span><span class="s1">oas</span><span class="s2">.</span><span class="s1">models</span><span class="s2">.</span><span class="s1">Components</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">io</span><span class="s2">.</span><span class="s1">swagger</span><span class="s2">.</span><span class="s1">v3</span><span class="s2">.</span><span class="s1">oas</span><span class="s2">.</span><span class="s1">models</span><span class="s2">.</span><span class="s1">OpenAPI</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">io</span><span class="s2">.</span><span class="s1">swagger</span><span class="s2">.</span><span class="s1">v3</span><span class="s2">.</span><span class="s1">oas</span><span class="s2">.</span><span class="s1">models</span><span class="s2">.</span><span class="s1">info</span><span class="s2">.</span><span class="s1">Contact</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">io</span><span class="s2">.</span><span class="s1">swagger</span><span class="s2">.</span><span class="s1">v3</span><span class="s2">.</span><span class="s1">oas</span><span class="s2">.</span><span class="s1">models</span><span class="s2">.</span><span class="s1">info</span><span class="s2">.</span><span class="s1">Info</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">io</span><span class="s2">.</span><span class="s1">swagger</span><span class="s2">.</span><span class="s1">v3</span><span class="s2">.</span><span class="s1">oas</span><span class="s2">.</span><span class="s1">models</span><span class="s2">.</span><span class="s1">info</span><span class="s2">.</span><span class="s1">License</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">io</span><span class="s2">.</span><span class="s1">swagger</span><span class="s2">.</span><span class="s1">v3</span><span class="s2">.</span><span class="s1">oas</span><span class="s2">.</span><span class="s1">models</span><span class="s2">.</span><span class="s1">security</span><span class="s2">.</span><span class="s1">SecurityScheme</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">context</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">Bean</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">org</span><span class="s2">.</span><span class="s1">springframework</span><span class="s2">.</span><span class="s1">context</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">Configuration</span><span class="s2">;</span>
+
+<span class="s1">@Configuration</span>
+<span class="s0">public class </span><span class="s1">SpringDocConfiguration </span><span class="s2">{</span>
+    <span class="s1">@Bean</span>
+    <span class="s0">public </span><span class="s1">OpenAPI customOpenAPI</span><span class="s2">() {</span>
+        <span class="s0">return new </span><span class="s1">OpenAPI</span><span class="s2">()</span>
+                <span class="s2">.</span><span class="s1">components</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Components</span><span class="s2">()</span>
+                        <span class="s2">.</span><span class="s1">addSecuritySchemes</span><span class="s2">(</span><span class="s3">&quot;bearer-key&quot;</span><span class="s2">,</span>
+                                <span class="s0">new </span><span class="s1">SecurityScheme</span><span class="s2">()</span>
+                                        <span class="s2">.</span><span class="s1">type</span><span class="s2">(</span><span class="s1">SecurityScheme</span><span class="s2">.</span><span class="s1">Type</span><span class="s2">.</span><span class="s1">HTTP</span><span class="s2">)</span>
+                                        <span class="s2">.</span><span class="s1">scheme</span><span class="s2">(</span><span class="s3">&quot;bearer&quot;</span><span class="s2">)</span>
+                                        <span class="s2">.</span><span class="s1">bearerFormat</span><span class="s2">(</span><span class="s3">&quot;JWT&quot;</span><span class="s2">)))</span>
+                <span class="s2">.</span><span class="s1">info</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Info</span><span class="s2">()</span>
+                        <span class="s2">.</span><span class="s1">title</span><span class="s2">(</span><span class="s3">&quot;Voll.med API&quot;</span><span class="s2">)</span>
+                        <span class="s2">.</span><span class="s1">description</span><span class="s2">(</span><span class="s3">&quot;API Rest de la aplicación Voll.med, que contiene las funcionalidades CRUD de médicos y de pacientes, además de reserva y cancelamiento de consultas&quot;</span><span class="s2">)</span>
+                        <span class="s2">.</span><span class="s1">contact</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Contact</span><span class="s2">()</span>
+                                <span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s3">&quot;Equipo Backend&quot;</span><span class="s2">)</span>
+                                <span class="s2">.</span><span class="s1">email</span><span class="s2">(</span><span class="s3">&quot;backend@voll.med&quot;</span><span class="s2">))</span>
+                        <span class="s2">.</span><span class="s1">license</span><span class="s2">(</span><span class="s0">new </span><span class="s1">License</span><span class="s2">()</span>
+                                <span class="s2">.</span><span class="s1">name</span><span class="s2">(</span><span class="s3">&quot;Apache 2.0&quot;</span><span class="s2">)</span>
+                                <span class="s2">.</span><span class="s1">url</span><span class="s2">(</span><span class="s3">&quot;http://voll.med/api/licencia&quot;</span><span class="s2">)));</span>
+    <span class="s2">}</span>
+
+
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

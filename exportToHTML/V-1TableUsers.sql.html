@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>V-1TableUsers.sql</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+V-1TableUsers.sql</font>
+</center></td></tr></table>
+<pre><span class="s0">CREATE TABLE </span><span class="s1">usuarios (</span>
+    <span class="s1">usuario_id BIGINT </span><span class="s0">NOT NULL </span><span class="s1">GENERATED </span><span class="s0">BY DEFAULT AS IDENTITY</span><span class="s1">,</span>
+    <span class="s1">nombre </span><span class="s0">VARCHAR</span><span class="s1">(</span><span class="s2">30</span><span class="s1">) </span><span class="s0">NOT NULL</span><span class="s1">,</span>
+    <span class="s1">email </span><span class="s0">VARCHAR</span><span class="s1">(</span><span class="s2">60</span><span class="s1">) </span><span class="s0">NOT NULL UNIQUE</span><span class="s1">,</span>
+    <span class="s1">clave </span><span class="s0">VARCHAR</span><span class="s1">(</span><span class="s2">200</span><span class="s1">) </span><span class="s0">NOT NULL</span><span class="s1">,</span>
+    <span class="s0">PRIMARY KEY </span><span class="s1">(usuario_id)</span>
+<span class="s1">);</span>
+</pre>
+</body>
+</html>

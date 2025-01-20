@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>V-2TableTopics.sql</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+V-2TableTopics.sql</font>
+</center></td></tr></table>
+<pre><span class="s0">CREATE TABLE </span><span class="s1">topicos (</span>
+    <span class="s1">id BIGINT </span><span class="s0">NOT NULL </span><span class="s1">GENERATED </span><span class="s0">BY DEFAULT AS IDENTITY</span><span class="s1">,</span>
+    <span class="s1">titulo </span><span class="s0">VARCHAR</span><span class="s1">(</span><span class="s2">100</span><span class="s1">) </span><span class="s0">NOT NULL</span><span class="s1">,</span>
+    <span class="s1">mensaje TEXT </span><span class="s0">NOT NULL</span><span class="s1">,</span>
+    <span class="s1">estado BOOLEAN </span><span class="s0">NOT NULL</span><span class="s1">,</span>
+    <span class="s1">curso </span><span class="s0">VARCHAR</span><span class="s1">(</span><span class="s2">100</span><span class="s1">) </span><span class="s0">NOT NULL</span><span class="s1">,</span>
+    <span class="s1">usuario_id BIGINT </span><span class="s0">NOT NULL</span><span class="s1">,</span>
+    <span class="s1">creado </span><span class="s0">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span><span class="s1">,</span>
+    <span class="s0">PRIMARY KEY </span><span class="s1">(id),</span>
+    <span class="s0">CONSTRAINT </span><span class="s1">fk_topico_usuario </span><span class="s0">FOREIGN KEY </span><span class="s1">(usuario_id) </span><span class="s0">REFERENCES </span><span class="s1">usuarios (usuario_id)</span>
+        <span class="s0">ON DELETE CASCADE ON UPDATE CASCADE</span>
+<span class="s1">);</span>
+
+</pre>
+</body>
+</html>

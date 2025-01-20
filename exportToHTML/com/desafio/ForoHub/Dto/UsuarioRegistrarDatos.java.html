@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>UsuarioRegistrarDatos.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #19b014;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+UsuarioRegistrarDatos.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">desafio</span><span class="s2">.</span><span class="s1">ForoHub</span><span class="s2">.</span><span class="s1">Dto</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">jakarta</span><span class="s2">.</span><span class="s1">validation</span><span class="s2">.</span><span class="s1">constraints</span><span class="s2">.</span><span class="s1">Email</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">jakarta</span><span class="s2">.</span><span class="s1">validation</span><span class="s2">.</span><span class="s1">constraints</span><span class="s2">.</span><span class="s1">NotBlank</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">UsuarioRegistrarDatos </span><span class="s2">{</span>
+    <span class="s1">@NotBlank</span>
+    <span class="s0">private </span><span class="s1">String nombre</span><span class="s2">;</span>
+
+    <span class="s1">@NotBlank</span>
+    <span class="s1">@Email</span>
+    <span class="s0">private </span><span class="s1">String email</span><span class="s2">;</span>
+
+    <span class="s1">@NotBlank</span>
+    <span class="s0">private </span><span class="s1">String clave</span><span class="s2">;</span>
+
+    <span class="s3">// Getters and Setters</span>
+    <span class="s0">public </span><span class="s1">String getNombre</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">nombre</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setNombre</span><span class="s2">(</span><span class="s1">String nombre</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">nombre </span><span class="s2">= </span><span class="s1">nombre</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getEmail</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">email</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setEmail</span><span class="s2">(</span><span class="s1">String email</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">email </span><span class="s2">= </span><span class="s1">email</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">String getClave</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">clave</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public void </span><span class="s1">setClave</span><span class="s2">(</span><span class="s1">String password</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">clave </span><span class="s2">= </span><span class="s1">password</span><span class="s2">;</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>
